@@ -8,7 +8,7 @@ function Module (id) {
   console.log('执行一次')
 }
 
-Module._resolveFilename = function (filename) { 
+Module._resolveFilename = function (filename) {
   // 利用 path 将 filename 转成绝对路径
   const absPath = path.resolve(__dirname, filename)
   // 判断当前路径对应的内容是否存在
@@ -42,7 +42,8 @@ Module._extensions = {
     const exports = module.exports
     const dirname = path.dirname(module.id)
     const filename = module.id
-    // 调用
+    // 调用方法
+    // exports作为方法的this：这也是为什么在任意模块下打印的this默认是一个空对象而不是global对象了
     compileFn.call(exports, exports, myRequire, module, filename, dirname)
   },
   '.json'(module) {
