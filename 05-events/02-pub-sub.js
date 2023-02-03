@@ -19,8 +19,8 @@ class PubSub {
   publish(eName, ...args) {
     const eList = this._events[eName]
     if (eList && eList.length) {
-      eList.forEach(function(eventFn) {
-        eventFn.call(this, ...args)
+      eList.forEach(function(cb) {
+        cb.call(this, ...args)
       })
     }
   }
