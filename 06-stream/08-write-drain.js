@@ -1,0 +1,19 @@
+const fs = require('fs')
+
+const ws = fs.createWriteStream('output.txt', {
+  highWaterMark: 3
+})
+
+let flag = ws.write('1')
+console.log(flag) // true
+
+flag = ws.write('2')
+console.log(flag) // true
+
+// 如果 flag 为 false 并不是说明当前数据不能被执行写入
+flag = ws.write('3')
+console.log(flag) // false
+
+ws.on('drain', () => {
+  console.log('1111')
+})
