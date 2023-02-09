@@ -44,12 +44,24 @@ class Server {
         this.fileHandle(req, res, absPath)
       } else {
         // 目录下所有资源
-        const dirs = await fs.readdir(absPath)
+        let dirs = await fs.readdir(absPath)
+        // 处理 dirs
+        dirs = dirs.map((item) => {
+          return {
+            path: path.join(pathname, item),
+            dirs: item
+          }
+        })
         // 将方法处理成 promise 风格
         const renderFile = promisify(ejs.renderFile)
+        // 处理 上一层
+        let parentPath = path.dirname(pathname) // 当前请求路径的 dirname
         // 把数据交给 html模板
         const ret = await renderFile(path.resolve(__dirname, 'template.html'), {
-          arr: dirs
+          arr: dirs,
+          parent: pathname === '/' ? false : true,
+          parentPath,
+          title: path.basename(absPath)
         })
         // 将结果回写给客户端
         res.end(ret)

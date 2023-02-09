@@ -3,14 +3,25 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title><%=title%></title>
 </head>
 <body>
+  <h3 class="title"><%=title%></h3>
+
   <ul>
     <!-- ejs 语法 -->
-    <%for(let i=0; i<arr.length; i++){%>
-      <li><a href="#"><%=arr[i]%></a></li>
-    <%}%>
+
+    <% if(parent) { %>
+        <li><a href="<%=parentPath%>">上一层</a></li>
+    <% } %>
+
+    <% for(let i=0; i<arr.length; i++){ %>
+      <li class="item"><a href="<%=arr[i].path%>"><%=arr[i].dirs%></a></li>
+    <% } %>
   </ul>
 </body>
+<style>
+  .title { margin-left: 20px; }
+  .item { margin: 10px 0; }
+</style>
 </html>
